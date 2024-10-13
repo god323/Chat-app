@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WebSocket Chat</title>
+</head>
+<body>
+<h1>WebSocket Chat</h1>
+<input id="messageInput" type="text" placeholder="Type a message...">
+<button onclick="sendMessage()">Send</button>
+
+<ul id="messages"></ul>
+
+<script>
+let socket;
+
+function init() {
+    // Replace '<your-public-ip>' with your actual public IP address.
+    socket = new WebSocket('ws://<your-public-ip>:8765');
+
+    socket.onmessage = function(event) {
+        const messagesList = document.getElementById('messages');
+        const newMessageItem = document.createElement('li');
+        newMessageItem.textContent = event.data;
+        messagesList.appendChild(newMessageItem);
+    };
+
+    socket.onopen = function() {
+        console.log("Connected to chat!");
+    };
+
+    socket.onclose = function() {
+        console.log("Disconnected from chat.");
+    };
+}
+
+function sendMessage() {
+   const inputField = document.getElementById('messageInput');
+   const messageText = inputField.value;
+   if (messageText) {
+       socket.send(messageText);
+       inputField.value=''; // Clear input field after sending.
+   }
+}
