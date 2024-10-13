@@ -17,7 +17,7 @@ let socket;
 
 function init() {
     // Replace '<your-public-ip>' with your actual public IP address.
-    socket = new WebSocket('ws://<your-public-ip>:8765');
+    socket = new WebSocket('ws://103.163.198.41:8765');
 
     socket.onmessage = function(event) {
         const messagesList = document.getElementById('messages');
